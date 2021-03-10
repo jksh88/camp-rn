@@ -16,7 +16,10 @@ const Directory = (props) => {
         leftAvatar={{ source: require('./images/react-lake.jpg') }}
       />
     );
-  }; //ListItem comes with its own onPress prop. The second onPress here(in the callback function) has been handed down from Directory(just used the same function name for convenience)
+  };
+  //navigation.navigate function takes as first argument required name of the screen to navigate to and second optional argument that adds extra parameters to the route
+  //In tis case I will name the key of the param 'campsteId'.
+  //ListItem comes with its own onPress prop. The second onPress here(in the callback function) has been handed down from Directory(just used the same function name for convenience)
 
   return (
     <FlatList
@@ -27,7 +30,7 @@ const Directory = (props) => {
   );
 };
 
-Directory.navigationOptions = (screenProps) => ({
+Directory.navigationOptions = () => ({
   title: 'Directory',
 });
 

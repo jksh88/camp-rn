@@ -21,6 +21,8 @@ const RenderCampsite = ({ campsite }) => {
 const CampsiteInfo = (props) => {
   const [campsites, setCampsites] = useState(CAMPSITES);
   const campsiteId = props.navigation.getParam('campsiteId');
+  //access the parameter set up to hold the id of the campsite being passed in the callback method of onPress in Directory component
+  //that parameter can be accessed from here throught the navigation prop which is passed to all components that are set up as a screen, including CampsiteInfo Component here
   const campsite = campsites.filter(
     (campsite) => campsite.id === campsiteId
   )[0];
