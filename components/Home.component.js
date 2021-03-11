@@ -9,9 +9,10 @@ const RenderItem = ({ item }) => {
   if (item) {
     console.log('ITEMNAME: ', item.name);
     //TODO: item name not displayiing over the image
+    //TODO: campsites state still in Directory component?
     return (
       <Card
-        featuredtitle={item.name}
+        featuredTitle={item.name}
         image={require('./images/react-lake.jpg')}
       >
         <Text style={{ margin: 10 }}>{item.description}</Text>

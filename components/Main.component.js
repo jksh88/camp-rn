@@ -7,6 +7,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 import Home from './Home.component';
+import About from './About.component';
+import Contact from './Contact.component';
 
 //createStackNavigator has one required argument called route configs object where we set what components will be available(in this case Directory and CampsiteInfo components)
 // https://reactnavigation.org/docs/4.x/headers
@@ -48,10 +50,46 @@ const HomeNavigator = createStackNavigator(
   }
 );
 
+const AboutNavigator = createStackNavigator(
+  {
+    About: { screen: About },
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#5637DD',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: '#fff',
+      },
+    },
+  }
+);
+
+const ContactNavigator = createStackNavigator(
+  {
+    Contact: { screen: Contact },
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#5637DD',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: '#fff',
+      },
+    },
+  }
+);
+
 const MainNavigator = createDrawerNavigator(
   {
     Home: { screen: HomeNavigator },
     Directory: { screen: DirectoryNavigator },
+    About: { screen: AboutNavigator },
+    Contact: { screen: ContactNavigator },
   },
   {
     drawerBackgroundColor: '#CEC8FF',
