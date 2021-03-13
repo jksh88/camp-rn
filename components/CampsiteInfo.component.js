@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Icon } from 'react-native-elements';
 import { CAMPSITES } from '../shared/campsites';
 import { COMMENTS } from '../shared/comments';
 
-const RenderCampsite = ({ campsite }) => {
+const RenderCampsite = ({ campsite, isFavorite, markAsFavorite }) => {
   if (campsite) {
     return (
-      <Card
-        featuredTitle={campsite.name}
-        image={require('./images/react-lake.jpg')}
-      >
-        <Text style={{ margin: 10 }}>{campsite.description}</Text>
-      </Card>
+      <View>
+        <Card
+          featuredTitle={campsite.name}
+          image={require('./images/react-lake.jpg')}
+        >
+          <Text style={{ margin: 10 }}>{campsite.description}</Text>
+          <Icon
+            name={isFavorite ? 'heart' : 'heart-o'}
+            type="font-awesome"
+            reverse
+            raised
+            color="#f50"
+            onPress={() => markAsFavorite()}
+          />
+        </Card>
+      </View>
     );
   }
   return <View />; //Something always has to be returned. If campsite is falsy, then an empty div(for RN empty view) will need to be returned
@@ -45,6 +55,7 @@ const RenderComments = ({ commentsForSelectedCampsite }) => {
 const CampsiteInfo = (props) => {
   const [campsites, setCampsites] = useState(CAMPSITES);
   const [comments, setComments] = useState(COMMENTS);
+  const [isFavorite, setIsFavorite] = useState(false);
   const campsiteId = props.navigation.getParam('campsiteId');
   //CampsiteInfo component was set up as a screen in DirecotyNavigator in Directory component.
   //Access the parameter set up to hold the id of the campsite being passed in the callback function of onPress in Directory component.
@@ -55,9 +66,14 @@ const CampsiteInfo = (props) => {
   const commentsForSelectedCampsite = comments.filter(
     (comment) => comment.campsiteId === campsiteId
   );
+  const markAsFavorite = () => setIsFavorite((isFavorite) => !isFavorite);
   return (
     <ScrollView>
-      <RenderCampsite campsite={campsite} />
+      <RenderCampsite
+        campsite={campsite}
+        isFavorite={isFavorite}
+        markAsFavorite={markAsFavorite}
+      />
       <RenderComments
         commentsForSelectedCampsite={commentsForSelectedCampsite}
       />
