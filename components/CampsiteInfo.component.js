@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView, FlatList } from 'react-native';
 import { Card } from 'react-native-elements';
 import { CAMPSITES } from '../shared/campsites';
+import { COMMENTS } from '../shared/comments';
 
 const RenderCampsite = ({ campsite }) => {
   if (campsite) {
-    console.log('CAMPSITE: ', campsite);
     return (
       <Card
         featuredTitle={campsite.name}
@@ -18,19 +18,55 @@ const RenderCampsite = ({ campsite }) => {
   return <View />; //Something always has to be returned. If campsite is falsy, then an empty div(for RN empty view) will need to be returned
 };
 
+const RenderComments = ({ commentsForSelectedCampsite }) => {
+  console.log('Comments printed: ', commentsForSelectedCampsite);
+  const renderCommentItem = ({ item }) => {
+    return (
+      <View style={{ margin: 10 }}>
+        <Text style={{ fontSize: 14 }}>{item.text}</Text>
+        <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+        <Text
+          style={{ fontSize: 12 }}
+        >{`-- ${item.author}, ${item.date}`}</Text>
+      </View>
+    );
+  };
+  return (
+    <Card title="Comments">
+      <FlatList
+        data={commentsForSelectedCampsite}
+        renderItem={renderCommentItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </Card>
+  );
+};
+
 const CampsiteInfo = (props) => {
   const [campsites, setCampsites] = useState(CAMPSITES);
+  const [comments, setComments] = useState(COMMENTS);
   const campsiteId = props.navigation.getParam('campsiteId');
-  //access the parameter set up to hold the id of the campsite being passed in the callback method of onPress in Directory component
-  //that parameter can be accessed from here throught the navigation prop which is passed to all components that are set up as a screen, including CampsiteInfo Component here
+  //CampsiteInfo component was set up as a screen in DirecotyNavigator in Directory component.
+  //Access the parameter set up to hold the id of the campsite being passed in the callback function of onPress in Directory component.
+  //That parameter can be accessed from here through the navigation prop which is passed to all components that are set up as a screen, including CampsiteInfo Component here
   const campsite = campsites.filter(
     (campsite) => campsite.id === campsiteId
   )[0];
-  return <RenderCampsite campsite={campsite} />;
+  const commentsForSelectedCampsite = comments.filter(
+    (comment) => comment.campsiteId === campsiteId
+  );
+  return (
+    <ScrollView>
+      <RenderCampsite campsite={campsite} />
+      <RenderComments
+        commentsForSelectedCampsite={commentsForSelectedCampsite}
+      />
+    </ScrollView>
+  );
 };
 
 CampsiteInfo.navigationOptions = (screenProps) => ({
-  title: 'CampsiteInformation',
+  title: 'Campsite Information',
 });
 
 export default CampsiteInfo;

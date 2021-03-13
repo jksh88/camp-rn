@@ -18,6 +18,7 @@ const DirectoryNavigator = createStackNavigator(
   {
     Directory: { screen: Directory },
     CampsiteInfo: { screen: CampsiteInfo },
+    //Each screen component in your app is provided with the navigation prop automatically.
   },
   {
     initialRouteName: 'Directory',

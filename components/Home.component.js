@@ -7,7 +7,6 @@ import { PARTNERS } from '../shared/partners';
 
 const RenderItem = ({ item }) => {
   if (item) {
-    console.log('ITEMNAME: ', item.name);
     //TODO: item name not displayiing over the image
     //TODO: campsites state still in Directory component?
     return (
