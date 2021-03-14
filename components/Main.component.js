@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import Directory from './Directory.component';
 import CampsiteInfo from './CampsiteInfo.component';
-import { View, Platform, StyleSheet } from 'react-native';
+import {
+  View,
+  Platform,
+  StyleSheet,
+  Text,
+  ScrollView,
+  Image,
+} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 import Home from './Home.component';
 import About from './About.component';
 import Contact from './Contact.component';
 import { Icon } from 'react-native-elements';
+import SafeAreaView from 'react-native-safe-area-view';
 
 //createStackNavigator has one required argument called route configs object where we set what components will be available(in this case Directory and CampsiteInfo components)
 // https://reactnavigation.org/docs/4.x/headers
@@ -122,6 +130,29 @@ const ContactNavigator = createStackNavigator(
   }
 );
 
+const CustomDrawerContentComponent = (props) => (
+  <ScrollView>
+    <SafeAreaView
+      style={styles.container}
+      forceInset={{ top: 'always', horizontal: 'never' }}
+    >
+      <View style={styles.drawerHeader}>
+        <View style={{ flex: 1 }}>
+          <Image
+            source={require('./images/logo.png')}
+            style={styles.drawerImage}
+          />
+        </View>
+        <View style={{ flex: 2 }}>
+          <Text style={styles.drawerHeaderText}>NC</Text>
+        </View>
+      </View>
+      <DrawerItems {...props}></DrawerItems>
+    </SafeAreaView>
+  </ScrollView>
+);
+//https://www.npmjs.com/package/react-native-safe-area-view
+
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
@@ -160,10 +191,11 @@ const MainNavigator = createDrawerNavigator(
         drawerLabel: 'Contact Us',
         drawerIcon: ({ tintColor }) => (
           <Icon
-            name="access-card"
+            name="address-card"
             type="font-awesome"
             size={24}
             color={tintColor}
+            onPress={() => navigation.toggleDrawer()}
           />
         ),
       },
@@ -171,6 +203,7 @@ const MainNavigator = createDrawerNavigator(
   },
   {
     drawerBackgroundColor: '#CEC8FF',
+    contentComponent: CustomDrawerContentComponent,
   }
 );
 //Here, the drawer navigator is the top-level navigator and it contains on the drawer Home and Directory
@@ -196,7 +229,25 @@ const Main = (props) => {
   );
 };
 
+//define custom styling
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  drawerHeader: {
+    backgroundColor: '#5637DD',
+    height: 140,
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+  },
+  drawerHeaderText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 30,
+  },
+  drawerImage: { margin: 20, height: 50, width: 50 },
   stackIcon: {
     marginLeft: 10,
     color: '#fff',
