@@ -2,18 +2,24 @@ import React, { useState } from 'react'; //imrs
 import { ScrollView } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { FlatList } from 'react-native';
-import { PARTNERS } from '../shared/partners';
 import Mission from './Mission.component';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
 const About = (props) => {
-  const [partners, setPartners] = useState(PARTNERS);
+  const partners = useSelector((state) => {
+    console.log(('STATE in useSelector : ', state));
+    return state.partners && state.partners.partners;
+  });
+  //Just grab the parts of the store that is needed here. Not the whole store
+  //Q: props or state?
 
   const renderPartner = ({ item }) => {
     return (
       <ListItem
         title={item.name}
         subtitle={item.description}
-        leftAvatar={{ source: require('./images/bootstrap-logo.png') }}
+        leftAvatar={{ source: { uri: `${baseUrl}${item.image}` } }}
       />
     );
   };

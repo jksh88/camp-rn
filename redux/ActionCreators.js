@@ -1,6 +1,5 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
-import { promotionsLoading } from '../../client-react/campsite/src/redux/ActionCreators';
 
 //thunked
 export const fetchComments = () => (dispatch) => {
@@ -22,13 +21,17 @@ export const fetchComments = () => (dispatch) => {
     )
     .then((res) => res.json())
     .then((comments) => dispatch(addComments(comments)))
-    .catch((err) => dispatch(commentsFailed(err.message)));
+    .catch((err) => {
+      console.log('ERR object:', err);
+      dispatch(commentsFailed(err.message));
+    });
 };
 //typically promise.then(successCallback, rejectCallback). Here if there was some kind of a response (even if it was not res.ok), it is considered a resolve or success.
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject
 
-export const commentsFailed = () => ({
+export const commentsFailed = (errMsg) => ({
   type: ActionTypes.COMMENTS_FAILED,
+  payload: errMsg,
 });
 
 export const addComments = (comments) => ({
@@ -118,12 +121,14 @@ export const fetchPartners = () => (dispatch) => {
         if (res.ok) {
           return res;
         } else {
+          console.log('RES INSIDE fetchPartners if res NOT OK: ', res);
           const error = new Error(`Error ${res.status}: ${res.statusText}`);
           error.response = res;
           throw error;
         }
       },
       (err) => {
+        console.log('INSIDE fetchPartners reject callback');
         const errorMessage = new Error(err.message);
         throw errorMessage;
       }
@@ -137,7 +142,7 @@ export const partnersLoading = () => ({
   type: ActionTypes.PARTNERS_LOADING,
 });
 
-export const partnersFailed = (errMsg = {
+export const partnersFailed = (errMsg) => ({
   type: ActionTypes.PARTNERS_FAILED,
   payload: errMsg,
 });

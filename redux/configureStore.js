@@ -9,13 +9,14 @@ import { partnersReducer } from './partnersReducer';
 export const ConfigureStore = () => {
   const store = createStore(
     combineReducers({
-      campsitesReducer,
-      commentsReducer,
-      promotionsReducer,
-      partnersReducer,
-    }),
+      campsites: campsitesReducer,
+      comments: commentsReducer,
+      promotions: promotionsReducer,
+      partners: partnersReducer,
+    }), //the keys here are the pieces of the state that selectors will need to have access to to grab that piece of state from the store
     applyMiddleware(thunk, logger)
   );
   return store;
 };
+
 //https://redux.js.org/recipes/structuring-reducers/using-combinereducers

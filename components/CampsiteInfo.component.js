@@ -3,6 +3,8 @@ import { Text, View, ScrollView, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { CAMPSITES } from '../shared/campsites';
 import { COMMENTS } from '../shared/comments';
+import { useSelector } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
 const RenderCampsite = ({ campsite, isFavorite, markAsFavorite }) => {
   if (campsite) {
@@ -10,7 +12,7 @@ const RenderCampsite = ({ campsite, isFavorite, markAsFavorite }) => {
       <View>
         <Card
           featuredTitle={campsite.name}
-          image={require('./images/react-lake.jpg')}
+          image={{ source: { uri: `${baseUrl}${campsite.image}` } }}
         >
           <Text style={{ margin: 10 }}>{campsite.description}</Text>
           <Icon
@@ -29,7 +31,7 @@ const RenderCampsite = ({ campsite, isFavorite, markAsFavorite }) => {
 };
 
 const RenderComments = ({ commentsForSelectedCampsite }) => {
-  console.log('Comments printed: ', commentsForSelectedCampsite);
+  // console.log('Comments printed: ', commentsForSelectedCampsite);
   const renderCommentItem = ({ item }) => {
     return (
       <View style={{ margin: 10 }}>
@@ -53,8 +55,14 @@ const RenderComments = ({ commentsForSelectedCampsite }) => {
 };
 
 const CampsiteInfo = (props) => {
-  const [campsites, setCampsites] = useState(CAMPSITES);
-  const [comments, setComments] = useState(COMMENTS);
+  // const [campsites, setCampsites] = useState(CAMPSITES);
+  // const [comments, setComments] = useState(COMMENTS);
+  const campsites = useSelector(
+    (state) => state.campsites && state.campsites.campsites
+  );
+  const comments = useSelector(
+    (state) => state.comments && state.comments.comments
+  );
   const [isFavorite, setIsFavorite] = useState(false);
   const campsiteId = props.navigation.getParam('campsiteId');
   //CampsiteInfo component was set up as a screen in DirecotyNavigator in Directory component.

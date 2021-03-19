@@ -18,11 +18,20 @@ import About from './About.component';
 import Contact from './Contact.component';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import {
+  fetchCampsites,
+  fetchComments,
+  fetchPartners,
+  fetchPromotions,
+} from '../redux/ActionCreators';
 
 //createStackNavigator has one required argument called route configs object where we set what components will be available(in this case Directory and CampsiteInfo components)
 // https://reactnavigation.org/docs/4.x/headers
 //Each screen component in the app is provided with the navigation prop automatically. The prop contains various convenience functions that dispatch navigation actions on the route's router such as
 // navigate, goBack, addListener, isFocused, state, setParams
+
 const DirectoryNavigator = createStackNavigator(
   {
     Directory: {
@@ -39,7 +48,7 @@ const DirectoryNavigator = createStackNavigator(
       }),
     },
     CampsiteInfo: { screen: CampsiteInfo },
-    //Each screen component in your app is provided with the navigation prop automatically.
+    //doc: Each screen component in your app is provided with the navigation prop automatically.
   },
   {
     initialRouteName: 'Directory',
@@ -217,6 +226,13 @@ const AppNavigator = createAppContainer(MainNavigator);
 //to handle the back button. The container can also be configured to persist your navigation state. On web, you'd use different containers than React Native.
 
 const Main = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchPartners());
+    dispatch(fetchCampsites());
+    dispatch(fetchComments());
+    dispatch(fetchPromotions());
+  }, []);
   return (
     <View
       style={{

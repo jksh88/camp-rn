@@ -1,6 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 
-export const campsiteReducer = (
+export const campsitesReducer = (
   state = { isLoading: true, errMsg: null, campsites: [] },
   action
 ) => {

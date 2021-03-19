@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import { CAMPSITES } from '../shared/campsites';
+import { Tile } from 'react-native-elements';
+import { baseUrl } from '../shared/baseUrl';
+import { useSelector } from 'react-redux';
 
 const Directory = (props) => {
-  const [campsites, setCampsites] = useState(CAMPSITES);
+  const campsites = useSelector(
+    (state) => state.campsites && state.campsites.campsites
+  );
 
   const { navigate } = props.navigation;
   const renderDirectoryItem = ({ item }) => {
     return (
-      <ListItem
+      <Tile
         title={item.name}
-        subtitle={item.description}
+        caption={item.description}
+        featured
         onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}
-        leftAvatar={{ source: require('./images/react-lake.jpg') }}
+        imageSrc={{ uri: `${baseUrl}${item.image}` }}
       />
     );
   };
