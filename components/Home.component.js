@@ -3,11 +3,15 @@ import { View, Text, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './Loading.component';
 // import { CAMPSITES } from '../shared/campsites';
 // import { PROMOTIONS } from '../shared/promotions';
 // import { PARTNERS } from '../shared/partners';
 
-const RenderItem = ({ item }) => {
+const RenderItem = ({ item, isLoading }) => {
+  if (isLoading) {
+    return <Loading />;
+  }
   if (item) {
     //DONE: item name not displayiing over the image A: needed to use 'featuredTitle' prop
     //DONE: campsites state still in Directory component? A: Correct
@@ -28,24 +32,32 @@ const Home = (props) => {
   // const [campsites, setCampsites] = useState(CAMPSITES);
   // const [promotions, setPromotions] = useState(PROMOTIONS);
   // const [partners, setPartners] = useState(PARTNERS);
-  const campsites = useSelector(
-    (state) => state.campsites && state.campsites.campsites
-  );
-  const promotions = useSelector(
-    (state) => state.promotions && state.promotions.promotions
-  );
-  const partners = useSelector(
-    (state) => state.partners && state.partners.partners
-  );
+  const campsites = useSelector((state) => state && state.campsites);
+  const promotions = useSelector((state) => state && state.promotions);
+  const partners = useSelector((state) => state && state.partners);
   return (
     <ScrollView>
       <RenderItem
-        item={campsites.filter((campsite) => campsite.featured === true)[0]}
+        item={
+          campsites.campsites.filter(
+            (campsite) => campsite.featured === true
+          )[0]
+        }
+        isLoading={campsites.isLoading}
+        errMsg={campsites.errMsg}
       />
       <RenderItem
-        item={promotions.filter((promotion) => promotion.featured)[0]}
+        item={
+          promotions.promotions.filter((promotion) => promotion.featured)[0]
+        }
+        isLoading={promotions.isLoading}
+        errMsg={promotions.errMsg}
       />
-      <RenderItem item={partners.filter((partner) => partner.featured)[0]} />
+      <RenderItem
+        item={partners.partners.filter((partner) => partner.featured)[0]}
+        isLoading={partners.isLoading}
+        errMsg={partners.isLoading}
+      />
     </ScrollView>
   );
 };
