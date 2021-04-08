@@ -121,7 +121,7 @@ export const fetchPartners = () => (dispatch) => {
         if (res.ok) {
           return res;
         } else {
-          console.log('RES INSIDE fetchPartners if res NOT OK: ', res);
+          // console.log('RES INSIDE fetchPartners if res NOT OK: ', res);
           const error = new Error(`Error ${res.status}: ${res.statusText}`);
           error.response = res;
           throw error;
@@ -151,3 +151,10 @@ export const addPartners = (partners) => ({
   type: ActionTypes.ADD_PARTNERS,
   payload: partners,
 });
+
+export const changeFavorites = (campsiteId) => (dispatch) => {
+  setTimeout(
+    () => dispatch({ type: ActionTypes.CHANGE_FAVORITES, payload: campsiteId }),
+    100
+  );
+};
