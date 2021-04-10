@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -35,3 +35,5 @@ const Reservation = (props) => {
 Reservation.navigationOptions = () => ({
   title: 'Reserve campsite',
 });
+
+export default Reservation;

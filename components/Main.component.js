@@ -16,6 +16,7 @@ import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 import Home from './Home.component';
 import About from './About.component';
 import Contact from './Contact.component';
+import Reservation from './Reservation.component';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
 import { useDispatch } from 'react-redux';
@@ -114,6 +115,31 @@ const AboutNavigator = createStackNavigator(
   }
 );
 
+const ReservationNavigator = createStackNavigator(
+  {
+    Reservation: { screen: Reservation },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#5637DD',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: '#fff',
+      },
+      headerLeft: (
+        <Icon
+          name="tree"
+          type="font-awesome"
+          iconStyle={styles.stackIcon}
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
+    }),
+  }
+);
+
 const ContactNavigator = createStackNavigator(
   {
     Contact: { screen: Contact },
@@ -177,6 +203,21 @@ const MainNavigator = createDrawerNavigator(
       navigationOptions: {
         drawerIcon: ({ tintColor }) => (
           <Icon name="list" type="font-awesome" size={24} color={tintColor} />
+        ),
+      },
+    },
+    Reservation: {
+      screen: ReservationNavigator,
+      navigationOptions: {
+        drawerLabel: 'Make a reservation',
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="tree"
+            type="font-awesome"
+            size={24}
+            color={tintColor}
+            onPress={() => naviga.toggleDrawer()}
+          />
         ),
       },
     },
