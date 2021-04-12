@@ -73,6 +73,7 @@ const Reservation = (props) => {
           onChange={onChange}
           display={Platform.OS === 'ios' ? 'spinner' : 'default'}
           mode={'date'}
+          style={styles.formItem}
         />
       )}
       <View style={styles.formRow}>

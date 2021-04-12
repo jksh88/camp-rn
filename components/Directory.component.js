@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { baseUrl } from '../shared/baseUrl';
 import { useSelector } from 'react-redux';
@@ -27,7 +27,11 @@ const Directory = (props) => {
     return <Loading />;
   }
   if (campsites.errMsg) {
-    return <View>{campsites.errMsg}</View>;
+    return (
+      <View>
+        <Text>{campsites.errMsg}</Text>
+      </View>
+    );
   }
   return (
     <FlatList
